@@ -9,6 +9,7 @@ class Ticket
     @film_id = options['film_id']
   end
 
+
   def save()
     sql = "INSERT INTO tickets (customer_id, film_id) VALUES ($1, $2)
     RETURNING id"
@@ -17,6 +18,23 @@ class Ticket
     @id = ticket['id'].to_i
   end
 
+
+  def film()
+    sql = "SELECT films.* FROM films WHERE id = $1"
+    values = [@film_id]
+    film = SqlRunner.run(sql, values)[0]
+    return film
+  end
+
+
+  def customer()
+    sql = "SELECT * FROM customers WHERE id = $1"
+    values = [@customer_id]
+    customer = SqlRunner.run(sql, values).first
+    return customer
+  end
+
+
   def self.all()
     sql = "SELECT * from tickets"
     values = []
@@ -24,5 +42,6 @@ class Ticket
     result = tickets.map {|ticket| Ticket.new(ticket)}
     return result
   end
+
 
 end
