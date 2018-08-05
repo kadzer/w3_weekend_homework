@@ -56,6 +56,14 @@ class Customer
   end
 
 
+  def count_tickets()
+    sql = "SELECT COUNT(id) FROM tickets WHERE customer_id = $1"
+    values = [@id]
+    result = SqlRunner.run(sql, values)[0]['count']
+    return result
+  end
+
+
   def self.all()
     sql = "SELECT * from customers"
     values = []
