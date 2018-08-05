@@ -45,6 +45,14 @@ class Film
   end
 
 
+def tickets_sold()
+  sql = "SELECT COUNT(ID) FROM tickets WHERE film_id = $1"
+  values =[@id]
+  result = SqlRunner.run(sql, values)[0]['count']
+  return result
+end
+
+
   def self.all()
     sql = "SELECT * from films"
     values = []
